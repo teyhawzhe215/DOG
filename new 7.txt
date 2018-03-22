@@ -1,0 +1,36 @@
+CREATE TABLE `dog_class` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dog_class` varchar(45) NOT NULL,
+  `dog_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `dog_class` (`dog_class`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+
+
+CREATE TABLE `dog_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dog_name` varchar(45) NOT NULL,
+  `dog_age` int(11) NOT NULL,
+  `dog_sex` varchar(2) NOT NULL,
+  `dog_class` varchar(45) NOT NULL,
+  `dog_counter` int(11) NOT NULL,
+  `dog_user` longtext,
+  `dog_image` longblob NOT NULL,
+  `dog_upload_user` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `dog_class` (`dog_class`),
+  CONSTRAINT `dog_class` FOREIGN KEY (`dog_class`) REFERENCES `dog_class` (`dog_class`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `sex` varchar(1) NOT NULL,
+  `tel` varchar(45) NOT NULL,
+  `address` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8
