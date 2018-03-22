@@ -8,5 +8,5 @@ import com.dog.entities.User;
 public interface UserService {
 	void save(User user);
 	User getUser(String email);
-	List<Map<String,Object>> getUser(String email , String password);
+	Map<String,Object> getUser(String email , String password);
 }

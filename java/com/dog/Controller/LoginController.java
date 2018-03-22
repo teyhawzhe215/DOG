@@ -1,8 +1,10 @@
 package com.dog.Controller;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,7 +27,7 @@ public class LoginController {
 	@Autowired
 	private UserService us ;
 	
-	@RequestMapping(value="/loginPage" , method = RequestMethod.GET)
+	@RequestMapping(value="/loginPage" ,  method = {RequestMethod.GET , RequestMethod.POST })
 	public String home() {
 		return "login";
 	}
@@ -37,33 +39,28 @@ public class LoginController {
 
 		try {
 			
-			List<Map<String, Object>> user=us.getUser(email,password);
+			Map<String, Object> user=us.getUser(email,password);
 			
-			if(user.size()>0) {
+			if(user!=null) {
 				
-				Iterator itr = user.iterator();
+				System.out.println("有資料的說:");
 				
-				while(itr.hasNext()){
-					Object[] obj = (Object[]) itr.next();
-					
-					for(int i=0;i<obj.length;i++) {
-						System.out.println(String.valueOf(obj[i]));
-					}
-					
+			
+				for(String index : user.keySet()) {
+					session.setAttribute(index,  user.get(index));
+					System.out.println(index  +   " , "  +user.get(index));
 				}
 				
-			
-				
-				profile.put("STATUS1", "SUCCESS");	
-				//session.setAttribute("USER", user);
-				//session.setAttribute("LOGIN", "OK");
+				profile.put("STATUS", "SUCCESS");	
+				profile.put("MESSAGE", "登入成功!");
+				session.setAttribute("USER", user);
+				session.setAttribute("LOGIN", "OK");
 						
-				return new ModelAndView("login",profile);
-				
-				
+				return new ModelAndView("redirect:/loginPage",profile);		
 			}else {
 				profile.put("STATUS1", "ERROR");
-				profile.put("MESSAGE", "密碼錯誤!");
+				profile.put("MESSAGE", email);
+				profile.put("EMAIL", "密碼錯誤!");
 				return new ModelAndView("login",profile);
 			}
 			
@@ -71,8 +68,9 @@ public class LoginController {
 			
 		}catch(Exception ex) {
 			System.out.println(ex.toString());
-			profile.put("STATUS1", "ERROR");
+			profile.put("STATUS", "ERROR");
 			profile.put("MESSAGE", "密碼錯誤!");
+			profile.put("EMAIL", email);
 			return new ModelAndView("login",profile);
 		}
 		
@@ -80,11 +78,15 @@ public class LoginController {
 		
 	}
 	
-	@RequestMapping(value="/session" , method = RequestMethod.POST)
+	@RequestMapping(value="/session" , method = RequestMethod.GET)
 	public String getSession(HttpSession session) {
 		
-		System.out.println(session.getAttributeNames());
-		
+		Enumeration<String> e = session.getAttributeNames();
+        while (e.hasMoreElements()) {
+            String s = e.nextElement();
+            System.out.println(s + " == " + session.getAttribute(s));
+        }
+        
 		return "login";
 	}
 	

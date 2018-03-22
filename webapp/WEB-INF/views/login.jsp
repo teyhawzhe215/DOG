@@ -21,7 +21,14 @@
 					
 						$(function(){
 							
-						
+								var status = "${STATUS}";
+								
+								if(status!=""){
+									
+									alert("${MESSAGE}");
+									
+									
+								}
 							
 						});
 					
@@ -89,7 +96,7 @@
                                                 <div class="row">
                                                     <div>
                                                         <div class="form-group">
-                                                            <input type="email" class="form-control" placeholder="EMAIL:EMAIL:name@name.com" name="email" id="EMAIL">
+                                                            <input type="email" class="form-control" placeholder="EMAIL:EMAIL:name@name.com" name="email" id="EMAIL" value="${EMAIL}" >
                                                         </div>
                                                     </div>
                                                 </div>
