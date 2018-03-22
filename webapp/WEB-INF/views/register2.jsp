@@ -194,7 +194,8 @@
                         </div>
                     </div>
 						
-                      <form:form action="/registerAction" method="post" modelAttribute="user">
+                
+                <form:form action="/registerAction" method="post" modelAttribute="user">
                         <div class="container form-group">
                             <div class="row">
                                 <div class="col-md-5">    
@@ -250,6 +251,8 @@
                             </div>
                         </div>
                     </form:form>
+                    
+                
                     
 
                     <div class="container">

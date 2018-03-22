@@ -13,5 +13,5 @@ public interface UserDao {
 	@Transactional
 	User getUser(String email);
 	@Transactional
-	List<Map<String,Object>> getUser(String email,String password);
+	Map<String,Object> getUser(String email,String password);
 }

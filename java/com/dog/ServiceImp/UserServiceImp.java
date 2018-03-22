@@ -32,7 +32,7 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public List<Map<String,Object>> getUser(String email, String password) {
+	public Map<String,Object> getUser(String email, String password) {
 		// TODO Auto-generated method stub
 		return userDao.getUser(email, password);
 	}

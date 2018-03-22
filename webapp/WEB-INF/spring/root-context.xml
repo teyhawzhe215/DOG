@@ -19,6 +19,8 @@
  		<property name="jdbcUrl" value="${jdbc.jdbcUrl}" />
  		<property name="maxStatements" value="0"></property>
 		<property name="checkoutTimeout" value="100"></property>
+		<property name="idleConnectionTestPeriod" value="60"></property>
+		<property name="maxIdleTime" value="60"></property> 
 	</bean>	
 	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
