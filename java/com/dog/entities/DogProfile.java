@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import org.json.JSONObject;
 
@@ -42,7 +43,7 @@ public class DogProfile implements Serializable {
 
 	private String dogUser;
 	
-	@Column(nullable=false)
+	@Lob
 	private byte[] dogImage;
 	
 	@Column(nullable=false , length=45)
