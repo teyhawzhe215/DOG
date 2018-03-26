@@ -34,8 +34,9 @@ public class UserDaoImp extends ConnectorHibernate implements UserDao {
 	@Override
 	public User getUser(String email) {
 		// TODO Auto-generated method stub
+		System.out.println("coming soon ");
 		Session session = this.getSessionFactory().openSession();
-		Query query= session.createQuery("From User u Where u.email =:email");
+		Query query= session.createQuery("Select new User(u.id as id,u.name as name , u.sex as sex , u.tel as tel , u.address as address)  From User u Where u.email =:email");
 		query.setParameter("email" , email);
 		
 		User user = null;

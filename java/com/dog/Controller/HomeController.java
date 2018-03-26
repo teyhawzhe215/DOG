@@ -41,7 +41,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		 User u =userService.getUser("dog@dog.com");
+		 User u =userService.getUser("123@123.com");
 		
 		 System.out.println(u.toString());
 		
