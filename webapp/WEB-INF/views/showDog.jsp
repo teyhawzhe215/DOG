@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+        	<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
             <%@ page session="false"%>
 
                 <!DOCTYPE html>
@@ -15,40 +16,12 @@
                     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
                     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-                    <title>新增狗狗</title>
-					
-					<script type="text/javascript">
-							
-						$(function(){
-							
-							$("#DOG_IMAGE").change(function(){
-								var file = this.files[0];
-								console.log($(this).val());
-								console.log(file.size);
-								
-								if ( $(this).val().split('.').pop().toLowerCase() != "jpg" ) {
-							        alert("圖檔格式錯誤，只支援jpg檔!");
-							        $(this).val('');
-							        $('#IMAGE').prop('src',"/resources/images/dogLogo.jpg");
-							        return false;
-							    }
-								
-								var reader = new FileReader();
-								reader.onload = function(e) {
-								      $('#IMAGE').attr('src', e.target.result);
-								    }		
-								
-								reader.readAsDataURL(file); 
-								
-							});
-							
-						});
-					
-					
-					</script>
-
-
+ 					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+					<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+                    
+                    <title>註冊</title>
+				
                 </head>
 
                 <body>
@@ -67,12 +40,12 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-1">
-                                            <img src="/resources/images/dogLogo.jpg" alt="Logo" class="rounded img-fluid"/>
+                                            <img src="/resources/images/dogLogo.jpg" alt="Logo" class="rounded img-fluid" />
                                         </div>
                                         <div class="col-md-6"></div>
                                         <div class="col-md-1">
-                                            <a href="/" role="button" class="btn btn-outline-warning btn-lg"> <img 
-								src="/resources/images/dogHand.jpg" alt="首頁" class="img-fluid" style="max-height:30px;max-width:40px" />
+                                            <a href="/" role="button" class="btn btn-outline-warning btn-lg"> <img
+								src="/resources/images/dogHand.jpg" alt="首頁" class="img-fluid"  style="max-height:30px;max-width:40px" />
 							</a>
                                         </div>
                                         <div class="col-md-1">
@@ -97,88 +70,45 @@
                             </div>
                         </div>
                     </div>
+              
+      				<div class="container">
+    				 
+      				<c:forEach begin="1"  end="${list.size()}" step="1" var="i" >
 
+				 		<c:if test="${i%3==1}">
+				 			   	<div class="row">
+				 		</c:if>
+										
+						<c:if test="${i /3 !=1 || i==3 }">	
+                         	<div class="card col-md-4">
+                            		<img src="<c:url value="/image/${list[i-1].dogImage}"/>."  class="card-img-top img-thumbnail rounded mx-auto d-block"    style="max-height:350px ;max-width:350px " >
+                            		 <div class="card-body">
+                            		 	<h5 class="card-title">${list[i-1].dogName} </h5>
+                            		 	<h5 class="card-text">年齡:${list[i-1].dogAge}</h5>
+                            		  	<c:if test="${list[i-1].dogSex=='0'}">
+		                                	<h5 class="card-text">雄性</h5>
+		                                </c:if>	
+		                                <c:if test="${list[i].dogSex=='1'}">
+		                                	 <h5 class="card-text">雌性</h5>
+		                                </c:if>	
+		                                <h5 class="card-text">飼主:${list[i-1].dogUser}</h5>
+		                                <h5 class="card-text">上傳者:${list[i-1].dogUploadUser}</h5>
+		                                <button type="button"  class="btn-outline-warning" >${list[i-1].dogCounter} </button>	  
+                            		 </div>
+                            </div>
 
-					<form:form action="/saveDogProfile" method="post" modelAttribute="dogProfile" enctype="multipart/form-data" cssClass="form-group">
-						<form:hidden path="dogCounter"/>
-						<form:hidden path="dogUser"/>
-						<form:hidden path="dogUploadUser"/>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 offset-md-4">
-									<div class="card" style="max-height:250px ;max-width:250px " >
-										<img alt="" src="/resources/images/dogLogo.jpg"   id="IMAGE" class="card-img-top">
-									</div>												
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-md-8 offset-md-4">		
-									<input type="file" id="DOG_IMAGE"  name="image"  class="btn btn-md btn-outline-primary" />								
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-md-8 offset-md-4">
-									<form:select path="dogClass">
-										<form:option value="<--請選擇狗類-->"></form:option>
-										<form:options items="${dogClass}"  itemValue="dogClass"  itemLabel="dogName" cssClass="btn btn-md btn-outline-primary" />	
-									</form:select>
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-md-8 offset-md-4">
-									<form:radiobutton path="dogSex" value="0" /> 雄性 &nbsp;&nbsp;&nbsp;&nbsp;
-									<form:radiobutton path="dogSex" value="1" /> 雌性
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-md-8 offset-md-4">
-									<form:input path="dogName" placeholder="狗名" cssClass="form-control" />
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-md-8 offset-md-4">
-								<form:label path="dogAge" cssClass="btn btn-md btn-outline-primary">狗年齡</form:label>					
-									<select id="DOG_AGE" name="dogAge"  >
-										<option value=0>0</option>
-										<option value=1>1</option>
-										<option value=2>2</option>
-										<option value=3>3</option>
-										<option value=4>4</option>
-										<option value=5>5</option>
-										<option value=6>6</option>
-										<option value=7>7</option>
-										<option value=8>8</option>
-										<option value=9>9</option>
-										<option value=10>10</option>
-										<option value=11>11</option>
-										<option value=12>12</option>
-										<option value=13>13</option>
-										<option value=14>14</option>
-										<option value=15>15</option>
-										<option value=16>16</option>
-									</select>
-									
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-md-8 offset-md-4">
-									<button type="submit" class="btn btn-lg btn-primary" >新增狗狗</button>
-								</div>
-							</div>
-							
-							
-						</div>
-					</form:form>
-					
-					
-					
-
+                            
+                         </c:if>
+                        
+    
+                        <c:if test="${i%3==0}">
+				 			   	</div>
+				 		</c:if>              
+               
+                	</c:forEach>
+                  
+                    </div>
+                    
 
                     <div class="container">
                         <div class="row">
@@ -201,11 +131,7 @@
 				</address>
                             </div>
                         </footer>
-
                     </div>
-
+                  
                 </body>
-
-
-
                 </html>

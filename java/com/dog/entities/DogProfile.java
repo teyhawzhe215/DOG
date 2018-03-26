@@ -1,18 +1,12 @@
 package com.dog.entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 
-import org.json.JSONObject;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class DogProfile implements Serializable {
@@ -43,8 +37,7 @@ public class DogProfile implements Serializable {
 
 	private String dogUser;
 	
-	@Lob
-	private byte[] dogImage;
+	private String dogImage;
 	
 	@Column(nullable=false , length=45)
 	private String dogUploadUser;
@@ -52,7 +45,7 @@ public class DogProfile implements Serializable {
 	public DogProfile() {}
 
 	public DogProfile(int id, String dogName, int dogAge, String dogSex, String dogClass, int dogCounter,
-			String dogUser, byte[] dogImage, String dogUploadUser) {
+			String dogUser, String dogImage, String dogUploadUser) {
 		super();
 		this.id = id;
 		this.dogName = dogName;
@@ -121,11 +114,11 @@ public class DogProfile implements Serializable {
 		this.dogUser = dogUser;
 	}
 
-	public byte[] getDogImage() {
+	public String getDogImage() {
 		return dogImage;
 	}
 
-	public void setDogImage(byte[] dogImage) {
+	public void setDogImage(String dogImage) {
 		this.dogImage = dogImage;
 	}
 
@@ -145,12 +138,10 @@ public class DogProfile implements Serializable {
 	public String toString() {
 		return "DogProfile [id=" + id + ", dogName=" + dogName + ", dogAge=" + dogAge + ", dogSex=" + dogSex
 				+ ", dogClass=" + dogClass + ", dogCounter=" + dogCounter + ", dogUser=" + dogUser + ", dogImage="
-				+ Arrays.toString(dogImage) + ", dogUploadUser=" + dogUploadUser + "]";
+				+ (dogImage) + ", dogUploadUser=" + dogUploadUser + "]";
 	}
 	
-	
-	
-	
+
 	
 	
 	

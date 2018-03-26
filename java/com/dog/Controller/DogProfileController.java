@@ -1,7 +1,17 @@
 package com.dog.Controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Hibernate;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +28,12 @@ import com.dog.entities.DogProfile;
 @Controller
 public class DogProfileController {
 
+	@Autowired  
+    private HttpServletRequest request;  
+	
+	@Autowired
+	private HttpSession session;
+	
 	@Autowired
 	private DogClassService dogClassService;
 	
@@ -40,28 +56,43 @@ public class DogProfileController {
 	}
 	
 	@RequestMapping(value="/saveDogProfile" , method = RequestMethod.POST )
-	public String saveDogProfile(@ModelAttribute DogProfile dogProfile , @RequestParam MultipartFile image ,Model model) {
+	public String saveDogProfile(@ModelAttribute DogProfile dogProfile ,Model model , @RequestParam MultipartFile image) throws IOException {
+		
+		
+		
+		if(!image.isEmpty()) {
+			
+		
+			String rootPath = System.getProperty("catalina.home");
+			
+			File dir = new File(rootPath + File.separator + "tmpFiles");
+
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddhhmmss");
+			String fileName = formatter.format(date)+image.getOriginalFilename();
+			String filePath = dir.getAbsolutePath()+"/" + fileName;
+			   
+			
+			System.out.println("filePath   " + filePath);
+			
+			image.transferTo(new File(filePath));  
+			   
+			dogProfile.setDogImage(fileName);
+			   
+		}else {
+			
+			System.out.println("沒有圖片!");
+			
+		}
 		
 		System.out.println(dogProfile.toString());
 		
-	
 		System.out.println("sieze="+image.getSize());
-		 
-		try {
-			dogProfile.setDogImage(image.getBytes());
-			dogProfileService.sava(dogProfile);
-			
-			return "redirect:/DogProfilePage";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
-			
-			
-			e.printStackTrace();
-			System.out.println(e);
-		}
-		model.addAttribute("dogProfile", dogProfile);
-		return "uploadDogProfile";
+	
+		dogProfileService.sava(dogProfile);
+		
+		return "redirect:/showDog";
+
 	}
 	
 }
